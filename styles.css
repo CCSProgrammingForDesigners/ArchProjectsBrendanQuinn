@@ -1,0 +1,19 @@
+#video {
+  margin-left: 20px;
+  margin-top: 20px;
+position: absolute;
+
+
+}
+ #canvas {
+  margin-left: 20px;
+  margin-top: 20px;
+position: absolute;
+
+}
+#output2 {
+ position: relative;
+height: 360px;
+width: 360px;
+
+}
