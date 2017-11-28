@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>l</title>
+</head>
+<link rel="stylesheet" href="/Users/melissaduckworth/Desktop/Arch/examples/styles.css">
+<script src="/Users/melissaduckworth/Desktop/Arch/color-thief-master/src/color-thief.js"></script>
+<script src="../build/tracking-min.js"></script>
+<script src="../build/data/face-min.js"></script>
+
+<body>
+
+  <div class="demo-frame">
+    <div class="demo-container">
+      <video id="video" preload autoplay loop muted></video>
+      <canvas id="canvas"></canvas> </div>
+  </div>
+
+  <script>
+    //face tracking code
+    window.onload = function() {
+      var video = document.getElementById('video');
+      var canvas = document.getElementById('canvas');
+      photo = document.getElementById('photo');
+      var context = canvas.getContext('2d');
+      var tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+      tracking.track('#video', tracker, {
+        camera: true
+      });
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        event.data.forEach(function(rect) {
+          context.strokeStyle = '#a64ceb';
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          context.font = '11px Helvetica';
+          context.fillStyle = "#fff";
+          context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+          context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+          //click on button>>>take picture
+
+        });
+      });
+    };
+  </script>
+</body>
+
+</html>
