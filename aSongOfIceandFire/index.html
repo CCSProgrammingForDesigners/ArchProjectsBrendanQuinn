@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>A Song of Ice and Fire</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="row">
+      <div class="col">
+        <h1>A Song of Ice and Fire Character Sheet</h1>
+        <hr>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <h2> Alive! (for now)</h2>
+        <ul id="listgroup1">
+
+        </ul>
+      </div>
+
+      <div class="col">
+        <h2>Dead! (Got the Greyscale)</h2>
+        <ul id="listgroup2">
+
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let searchAliveURL = ('https://www.anapioficeandfire.com/api/characters?page=1&pageSize=100')
+    axios(searchAliveURL).then(response => {
+      loopLiving(response.data)
+    })
+
+    function loopLiving(info) {
+      for (person of info) {
+        if (person.died) {
+          if (person.name !== "") {
+            let ul1 = document.getElementById("listgroup2")
+            ul1.insertAdjacentHTML('beforeend', `<li>${person.name}</li>`)
+          } else {
+            if (person.aliases.length) {
+              let ul1 = document.getElementById("listgroup2")
+              ul1.insertAdjacentHTML('beforeend', `<li>${person.aliases[0]}</li>`)
+            }
+          }
+        } else {
+          if (person.name) {
+            let ul1 = document.getElementById("listgroup1")
+            ul1.insertAdjacentHTML('beforeend', `<li>${person.name}</li>`)
+          } else {
+            if (person.aliases) {
+              let ul1 = document.getElementById("listgroup1")
+              ul1.insertAdjacentHTML('beforeend', `<li>${person.aliases[0]}</li>`)
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>
