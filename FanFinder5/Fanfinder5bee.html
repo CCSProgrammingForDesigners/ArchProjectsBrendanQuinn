@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<!--link rel="stylesheet" href="/Users/melissaduckworth/Desktop/Arch/examples/styles.css"-->
+<script src="../build/tracking-min.js"></script>
+<script src="../build/data/face-min.js"></script>
+<script src="/Users/melissaduckworth/Desktop/Arch/color-thief-master/src/color-thief.js"></script>
+
+<style>
+  .demo-frame {
+    margin-left: 20px;
+    margin-top: 20px;
+    position: absolute;
+    width: 340px;
+    height: 240px;
+  }
+
+  .demo-container {
+    margin-left: 20px;
+    margin-top: 20px;
+    position: absolute;
+    width: 340px;
+    height: 240px;
+  }
+
+  #video {
+    margin-left: 20px;
+    margin-top: 20px;
+    position: absolute;
+    width: 340px;
+    height: 240px;
+  }
+
+  #canvas {
+    margin-left: 20px;
+    margin-top: 20px;
+    position: absolute;
+    width: 340px;
+    height: 240px;
+  }
+  .camera {
+    margin-left: 20px;
+    margin-top: 400px;
+    position: relative;
+    width: 340px;
+    height: 240px;
+  }
+  .output {
+    margin-left: 20px;
+    margin-top: 20px;
+    position: 600px, 600px;
+    position: relative;
+    width: 340px;
+    height: 240px;
+  }
+    #photo {
+      margin-left: 20px;
+      margin-top: 400px;
+      position: relative;
+      width: 340px;
+      height: 240px;
+    }
+  }
+</style>
+
+<body>
+
+  <div class="demo-frame">
+    <div class="demo-container">
+      <video id="video"></video>
+      <canvas id="canvas"></canvas>
+    </div>
+
+    <div class="camera">
+      <video id="video">Video stream not available.</video>
+      <button id="startbutton">Take photo</button>
+    </div>
+
+    <canvas id="canvas">
+</canvas>
+    <div class="output">
+      <img id="photo" alt="The screen capture will appear in this box.">
+    </div>
+
+
+
+    <!--div class="Convolution">
+      <img id="photo" src="video"><br>
+      <text id="returns">No Data</text>
+    </div-->
+
+    <script>
+      //face tracking code
+      window.onload = function() {
+          var video = document.getElementById('video');
+          var canvas = document.getElementById('canvas');
+          photo = document.getElementById('photo');
+          var context = canvas.getContext('2d');
+          var tracker = new tracking.ObjectTracker('face');
+          tracker.setInitialScale(2);
+          tracker.setStepSize(2);
+          tracker.setEdgesDensity(0.1);
+          tracking.track('#video', tracker, {
+            camera: true
+          });
+          tracker.on('track', function(event) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            event.data.forEach(function(rect) {
+              context.strokeStyle = '#a64ceb';
+              context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+              context.font = '11px Helvetica';
+              context.fillStyle = "#fff";
+              context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+              context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+            });
+          });
+
+
+
+          /*function screenshot() {
+              var width = 340; // We will scale the photo width to this
+              var height = 0; // This will be computed based on the input stream
+
+              var streaming = false;
+
+              var video = null;
+              var canvas = null;
+              var photo = null;
+              var startbutton = null;*/
+
+              function startup() {
+                video = document.getElementById('video');
+                canvas = document.getElementById('canvas');
+                photo = document.getElementById('photo');
+                startbutton = document.getElementById('startbutton');
+
+                navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                  })
+                  .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                  })
+                  .catch(function(err) {
+                    console.log("An error occured! " + err);
+                  });
+
+                video.addEventListener('canplay', function(ev) {
+                  if (!streaming) {
+                    height = video.videoHeight / (video.videoWidth / width);
+
+                    video.setAttribute('width', width);
+                    video.setAttribute('height', height);
+                    canvas.setAttribute('width', width);
+                    canvas.setAttribute('height', height);
+                    streaming = true;
+                  }
+                }, false);
+
+                startbutton.addEventListener('click', function(ev) {
+                  takepicture();
+                  ev.preventDefault();
+                }, false);
+
+                clearphoto();
+              }
+
+              function clearphoto() {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "#AAA";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                var data = canvas.toDataURL('image/png');
+                photo.setAttribute('src', data);
+              }
+
+              function takepicture() {
+                var context = canvas.getContext('2d');
+                if (width && height) {
+                  canvas.width = width;
+                  canvas.height = height;
+                  context.drawImage(video, 0, 0, width, height);
+
+                  var data = canvas.toDataURL('image/png');
+                  photo.setAttribute('src', data);
+                } else {
+                  clearphoto();
+                }
+              }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //Screen size=1440x360,1200x360
+  </script>
+</body>
+
+</html>

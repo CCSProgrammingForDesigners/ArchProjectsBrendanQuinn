@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>tracking.js - face with camera</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="/Users/melissaduckworth/Desktop/Arch/color-thief-master/src/color-thief.js"></script>
+  <script src="../build/tracking-min.js"></script>
+  <script src="../build/data/face-min.js"></script>
+  <style>
+    video,
+    canvas {
+      margin-left: 20px;
+      margin-top: 20px;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="demo-frame">
+    <video id="video" width="360" height="360" preload autoplay loop muted></video>
+    <canvas id="canvas" width="360" height="2640"></canvas>
+      //needs to be from video-             V
+    <img id="screenshot" src="video"><br>
+    <canvas id="canvas2" width="360" height="360"></canvas>
+  </div>
+
+  <div class="camera">
+   <video id="video">Video stream not available.</video>
+   <button id="senseface">Take photo</button>
+ </div>
+
+ <canvas id="canvas2">
+ </canvas>
+ <div class="output">
+   <img id="photo" alt="The screen capture will appear in this box.">
+ </div>
+
+  <script>
+    //face tracking code
+    window.onload = function() {
+      var context = canvas.getContext('2d');
+      var tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+      tracking.track('#video', tracker, {
+        camera: true
+      });
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        event.data.forEach(function(rect) {
+          context.strokeStyle = '#a64ceb';
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          context.font = '11px Helvetica';
+          context.fillStyle = "#fff";
+          context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+          context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        });
+      });
+
+
+      var container = document.getElementById("myVid"),
+    video = document.createElement('video'),
+    canCapture = true;
+if (!video.canPlayType('video')) {
+    /* If you don't have multiple sources, you can load up a Flash fallback here
+       (like jPlayer), but you won't be able to capture frames */
+    canCapture = false;
+    return;
+}
+video.src = 'myvideo';
+container.appendChild(video);
+video.play()
+
+
+
+
+
+      const c = document.getElementById('canvas')
+      const ctx = c.getContext('2d');
+      const img = document.getElementById('photo')
+      var colorThief = new ColorThief();
+      console.log(colorThief.getColor(sourceImage));
+
+
+
+
+
+
+      //define colors for the convolution
+      tracking.ColorTracker.registerColor("red", function(r, g, b) {
+        if (r > 200 && g < 50 && b < 50) {
+          return true;
+        }
+        return false;
+      });
+      tracking.ColorTracker.registerColor('orange', function(r, g, b) {
+        if (r > 200 && g > 130 && b < 50) {
+          return true;
+        }
+        return false;
+      });
+      tracking.ColorTracker.registerColor('blue', function(r, g, b) {
+        if (r < 50 && g < 50 && b > 200) {
+          return true;
+        }
+        return false;
+      });
+      tracking.ColorTracker.registerColor('green', function(r, g, b) {
+        if (r < 50 && g > 200 && b < 50) {
+          return true;
+        }
+        return false;
+      });
+      // route gif choice based on color
+      let colors = new tracking.ColorTracker(['red', 'orange', 'blue', 'green'])
+      colors.on('track', function(event) {
+          if (event.data.length === 0) {} else {
+            if Color = 'red'
+            let "video2" = getvideo(RWGIFv1.gif)
+          } else {
+            if registerTracker = 'orange'
+            let "video2" = getvideo(LCvideoV1.gif)
+          } else {
+            if registerTracker = 'blue'
+            let "video2" = getvideo(ComericaVideoV1.gif)
+          } else {
+            if registerTracker = 'green'
+            let "video2" = getvideo(art)
+          }
+        }
+      });
+    //Screen size=1440x360,1200x360
+  </script>
+</body>
+
+</html>

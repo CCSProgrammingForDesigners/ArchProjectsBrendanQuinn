@@ -1,0 +1,33 @@
+#video {
+  left: 20px;
+  top: 20px;
+  position: absolute;
+  width: 340px;
+  height: 240px;
+}
+
+#canvas {
+  left: 20px;
+  top: 20px;
+  position: absolute;
+  width: 340px;
+  height: 240px;
+}
+
+#photo {
+  left: 20px;
+  top: 280px;
+  position: absolute;
+  width: 340px;
+  height: 240px;
+}
+
+#giffthing {
+  top: 540px;
+  left: 20px;
+  width: 340px;
+  height: 900px;
+  position: absolute;
+}
+
+}

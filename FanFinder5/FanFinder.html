@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>tracking.js - color with camera</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="tracking-min.js"></script>
+
+
+
+</head>
+
+<body>
+
+
+  <video id="myVideo" width="100%" height="100%" preload autoplay loop muted></video>
+
+  <script>
+    var objects = new tracking.ObjectTracker(['face', 'eye', 'mouth']);
+    objects.on('track', function(event) {
+      if (event.data.length === 0) {
+
+      } else {
+        event.data.forEach(function(rect) {
+          // rect.x, rect.y, rect.height, rect.width
+        });
+      }
+      tracking.track('#myVideo', myTracker);
+    });
+
+    //tracking.track('#myVideo', colors, { camera: true });
+
+      //<p>Capture Image: <input type="file" accept="image/*" id="capture" capture="camera">
+       //tracking.Image.verticalConvolve(pixels, width, height, weightsVector, opaque);
+        //trackerTask.run();
+         //tracking.Image.verticalConvolve(pixels, width, height, weightsVector, opaque);
+          //trackerTask.stop();
+           // if convolution is red, play gif Redwing,
+           // if convolution is orange, play gif Pizza,
+           // if convolution is blue, play gif piggy bank
+           // if convolution is green, play art
+           //tracking.ColorTracker.registerColor('green', function(r, g, b) {
+  //if (r < 50 && g > 200 && b < 50) {return true;} return false;});
+  </script>
+
+</body>
+
+</html>

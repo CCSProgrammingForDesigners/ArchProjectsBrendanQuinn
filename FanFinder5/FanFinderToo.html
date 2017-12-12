@@ -1,0 +1,121 @@
+       <!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>tracking.js - face with camera</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="../build/tracking-min.js"></script>
+  <script src="../build/data/face-min.js"></script>
+  <style>
+    video,
+    canvas {
+      margin-left: 20px;
+      margin-top: 20px;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="demo-frame">
+    <video id="video" width="360" height="360" preload autoplay loop muted></video>
+    <video id="video2" width="360" height="360" preload autoplay loop muted></video>
+    <img id="theImage" src="http://placehold.it/400x400">
+    <canvas id="canvas" width="360" height="2640"></canvas>
+
+  </div>
+  <script>
+  //face tracking code
+    window.onload = function() {
+      var context = canvas.getContext('2d');
+      var tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+      tracking.track('#video', tracker, {
+        camera: true
+      });
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        event.data.forEach(function(rect) {
+          context.strokeStyle = '#a64ceb';
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          context.font = '11px Helvetica';
+          context.fillStyle = "#fff";
+          context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+          context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        });
+      });
+//canvas for captured image
+      var canvas = document.createElement('canvas');
+      canvas.width = 360;
+      canvas.height = 360;
+      var ctx = canvas.getContext('2d');
+
+//image capture
+      var container = document.getElementById("myVid"),
+    video = document.createElement('video'),
+    canCapture = true;
+if (!video.canPlayType('video/wmv')) {
+
+    canCapture = false;
+    return;
+}
+video.src = 'myvideo.wmv';
+container.appendChild(video);
+video.play();
+
+
+
+
+//define colors for the convolution
+    tracking.ColorTracker.registerColor("red", function(r, g, b) {
+    if (r > 200 && g < 50 && b < 50){
+    return true;
+  }
+ return false;
+});
+    tracking.ColorTracker.registerColor('orange', function(r, g, b) {
+    if (r > 200 && g >130 && b < 50){
+    return true;
+}
+ return false;
+});
+    tracking.ColorTracker.registerColor('blue', function(r, g, b) {
+    if (r < 50 && g < 50 && b > 200){
+    return true;
+}
+ return false;
+});
+    tracking.ColorTracker.registerColor('green', function(r, g, b) {
+    if (r < 50 && g > 200 && b < 50){
+    return true;
+}
+ return false;
+});
+// route gif choice based on color
+    let colors = new tracking.ColorTracker(['red','orange','blue','green'])
+    colors.on('track', function(event) {
+      if (event.data.length === 0) {
+        } else {
+      if Color = 'red'
+      let "video2" = getvideo(RWGIFv1.gif)
+         }else {
+      if registerTracker = 'orange'
+      let "video2" = getvideo(pizza)
+        } else {
+      if registerTracker = 'blue'
+      let "video2" = getvideo(bank)
+        } else {
+      if registerTracker = 'green'
+      let "video2" = getvideo(art)
+    }
+}
+});
+    // maybe javascript switch statement here instead of else statements
+      //Screen size=1440x360,1200x360
+  </script>
+</body>
+
+</html>

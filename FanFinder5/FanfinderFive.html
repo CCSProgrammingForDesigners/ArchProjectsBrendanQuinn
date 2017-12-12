@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<script src="build/tracking-min.js"></script>
+<script src="build/data/face-min.js"></script>
+<script src="color-thief-master/src/color-thief.js"></script>
+
+<body>
+  <div>
+    <video id="video"></video>
+    <canvas id="canvas"></canvas>
+    <canvas id="photo" width="340" height="240"></canvas>
+    <img src="assets/LCvideoV1.gif" id="giffthing">
+  </div>
+  <script>
+    let lastPicAt = 0;
+
+    //face tracking code
+    window.onload = function() {
+      let video = document.getElementById('video');
+      let canvas = document.getElementById('canvas');
+      photo = document.getElementById('photo');
+
+      let context = canvas.getContext('2d');
+      let tracker = new tracking.ObjectTracker('face');
+      let colorThief = new ColorThief();
+      let photoContext = photo.getContext('2d');
+      tracker.setInitialScale(2);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+      tracking.track('#video', tracker, {
+        camera: true
+      });
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        event.data.forEach(function(rect) {
+          context.strokeStyle = '#a64ceb';
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          context.font = '11px Helvetica';
+          context.fillStyle = "#fff";
+          context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+          context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        });
+        //delay
+        let now = new Date();
+        if (+now > lastPicAt + 5000) {
+          lastPicAt = +now;
+          //screen shot
+          photoContext.drawImage(video, 0, 0, 340, 240);
+
+          console.log(rgbToHsl(colorThief.getColor(photo))[0]);
+          document.getElementById("giffthing").src = "assets/" + getGif(rgbToHsl(colorThief.getColor(photo))[0]);
+        }
+      });
+    };
+
+    function rgbToHsl(rgb) {
+      let r = rgb[0];
+      let g = rgb[1];
+      let b = rgb[2];
+      r /= 255, g /= 255, b /= 255;
+      let max = Math.max(r, g, b),
+        min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+      if (max == min) {
+        h = s = 0; // achromatic
+      } else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r:
+            h = (g - b) / d + (g < b ? 6 : 0);
+            break;
+          case g:
+            h = (b - r) / d + 2;
+            break;
+          case b:
+            h = (r - g) / d + 4;
+            break;
+        }
+        h *= 60;
+      }
+      return [h, s, l];
+    }
+
+    function getGif(hue) {
+      console.log(hue);
+      if (hue < 10.0) {
+        return 'RWGIFv1.gif';
+      }
+      if (hue < 20.0) {
+        return 'LCvideoV1.gif';
+      }
+      if (hue < 30.0) {
+        return 'ComerVideoV1.gif';
+      }
+      if (hue < 360.0) {
+        return 'CCSGIFv1.gif';
+      }
+    }
+  </script>
+</body>
+
+</html>
