@@ -12,6 +12,8 @@
 
 <body>
   <div id='map'></div>
+  <div id='marker'></div>
+
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiYnF1aW5uIiwiYSI6ImNqOTY4ZHp1ZzAxcTIycW82M204bzJtbDgifQ.C_LI72WHDf5ZNLg2IWBWTA';
     let map = new mapboxgl.Map({
@@ -38,19 +40,19 @@
       }
     };
 
-/*    function getColor() {
+    function getColor() {
 
       if (num_bikes_available < 10.0) {
-        return 'greenmarker';
+        return 'green.png';
       }
       if (3 > num_bikes_available < 9.0) {
-        return 'yellowmarker';
+        return 'yellow.png';
       }
       if (2 > num_bikes_available) {
-        return 'redmarker';
+        return 'redmarker.png';
       }
 
-    }*/
+    }
   </script>
 </body>
 
