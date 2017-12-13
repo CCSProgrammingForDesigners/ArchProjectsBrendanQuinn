@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Bike Share: Locations and Quantity</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div id='map'></div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYnF1aW5uIiwiYSI6ImNqOTY4ZHp1ZzAxcTIycW82M204bzJtbDgifQ.C_LI72WHDf5ZNLg2IWBWTA';
+    let map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v9',
+      zoom: 11,
+      center: [-74.000, 40.7751908]
+    })
+
+    let searchURL = "https://cdn.rawgit.com/mikefresh/cccb2b7571f6de2a4fd96c6271a1b8a3/raw/7b716366fc8fe27b9ecace1bbdcd4cf8d82980fd/citi.json"
+
+    axios(searchURL).then(response => {
+      loopAlpha = response.data
+    })
+
+    function loopAlpha(station) {
+      let stations = data.station.BeanList;
+      for (station of stations) {
+        if (station.BeanList.lon, station.BeanList.lat) {
+          let marker = new mapboxgl.Marker(location)
+            .setLngLat([station.BeanList.lon, station.BeanList.lat])
+            .addTo(map);
+        }
+      }
+    };
+
+/*    function getColor() {
+
+      if (num_bikes_available < 10.0) {
+        return 'greenmarker';
+      }
+      if (3 > num_bikes_available < 9.0) {
+        return 'yellowmarker';
+      }
+      if (2 > num_bikes_available) {
+        return 'redmarker';
+      }
+
+    }*/
+  </script>
+</body>
+
+</html>
